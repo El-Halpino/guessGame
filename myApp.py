@@ -13,7 +13,7 @@ def start_guessForm():
     return render_template("guessform.html", the_title="Guessing Game")
 
 
-@app.route("/90logic")
+@app.route("/90logic", methods=["POST"])
 def do_logic():
     guess = int(request.form["userGuess"])
     ##return render_template("guessform.html", value = guess) send value guess back to html
@@ -27,38 +27,33 @@ def do_logic():
         session["numOfGuesses"] + 1
         return render_template("tooLow.html", the_title="Too Low!")
 
+@app.route("/highScore")
+def display_highScore():
+    with open("records.pickle", "rb") as pf:
+        data = sorted(pickle.load(pf))
+    return render_template("highScore.html", the_title="HighScores!", myHighScores=data)
+
 @app.route("/setHighScore", methods=["POST", "GET"])
 def record_highscore():
-    name = str(request.form["userName"])
+    name = request.form["userName"]
     time = round(session["end"] - session["start"], 2)
     userRecord = [name, session["numOfGuesses"], time]
     with open("records.pickle", "rb") as pf:
         try:
             highScores = list(pickle.load(pf))
         except:
-            highScores = list()
-highScores = list()        
-highScores.append(userRecord) 
-finalHighScores = sorted(highScores)
+            highScores = list()      
+    highScores.append(userRecord) 
+    finalHighScores = sorted(highScores)
+    rank = (
+    sorted(finalHighScores).index([name, session["numOfGuesses"], time]) + 1
+    )
+    with open("records.pickle", "wb") as pf:
+        pickle.dump(highScores, pf)
+        return render_template("/gameComplete.html", the_title="Guessing Game", position=rank)
 
-rank = (
-    sorted(highScores).index([name, session["numOfGuesses"], time]) + 1
-)
 
-
-
-
-##app.route("/highScore")
-##def display_highScore():
-##    score = session["score"]
-##
-##    return render_template(
-##        "highScore.html", the_title="HighScores!", the_data=sorted(data, reverse=True)
-##   )
-##
-##app.route("/storeResults")
-##def store_results():
-
+   
 app.secret_key = "wrrrrrfegko3245tk50ekdgrge3t2ewdsf"
 
 if __name__ == "__main__":

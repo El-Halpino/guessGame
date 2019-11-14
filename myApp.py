@@ -5,6 +5,10 @@ import pickle
 
 app = Flask(__name__)
 
+@app.route("/")
+def def_screen():
+    return "Enter /guessform to start game.\nEnter /highScore to view the leaberboards"
+
 @app.route("/guessform")
 def start_guessForm():
     session["number"] = random.randint(1, 1000)
@@ -21,11 +25,15 @@ def do_logic():
         session["end"] = time.perf_counter()
         return render_template("correctGuess.html", the_title="You Guessed it!")
     elif guess > session["number"]:
-        session["numOfGuesses"] + 1
-        return render_template("tooHigh.html", the_title="Too High!")
+        numOfGuesses1 = int(session["numOfGuesses"])
+        numOfGuesses1 = numOfGuesses1 + 1
+        session["numOfGuesses"] = str(numOfGuesses1)
+        return render_template("guessform.html", the_title="Too High!", currentStatus="Too High!")
     elif guess < session["number"]:
-        session["numOfGuesses"] + 1
-        return render_template("tooLow.html", the_title="Too Low!")
+        numOfGuesses1 = int(session["numOfGuesses"])
+        numOfGuesses1 = numOfGuesses1 + 1
+        session["numOfGuesses"] = str(numOfGuesses1)
+        return render_template("guessform.html", the_title="Too Low!", currentStatus="Too Low!")
 
 @app.route("/highScore")
 def display_highScore():

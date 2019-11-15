@@ -45,7 +45,7 @@ def do_logic():
 def display_highScore():
     with open("records.pickle", "rb") as pf:
         data = pickle.load(pf)
-        sortedData = sorted(data ,key=lambda x: float(x[0]), reverse=True)
+        sortedData = sorted(data ,key=lambda x: float(x[0]))
     return render_template("highScore.html", the_title="HighScores!", myHighScores=sortedData)
 
 

@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def def_screen():
-    return "Enter /guessform to start game.\nEnter /highScore to view the leaberboards"
+    return "Enter /guessform to start game.\nEnter /highScore to view the leaderboards"
 
 
 @app.route("/guessform")

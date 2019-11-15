@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block the_body %}
+<form method="POST" action="/setHighScore">
+    <h2>You are correct!</h2>
+    <p>Enter Your name for the highscore table</p>
+    <input type="text" name="userName">
+    <br />
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

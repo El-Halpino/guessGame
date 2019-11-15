@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block the_body %}        
+{{currentStatus}}
+<form method="POST" action="/90logic">
+    <h2>Guess a number between 0 and 1000</h2>
+    <input type="number" name="userGuess" min="0" max="1000">
+    <br />
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

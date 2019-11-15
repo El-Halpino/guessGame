@@ -22,7 +22,6 @@ def start_guessForm():
 @app.route("/90logic", methods=["POST"])
 def do_logic():
     guess = int(request.form["userGuess"])
-    ##return render_template("guessform.html", value = guess) send value guess back to html
     if guess == session["number"]:
         session["end"] = time.perf_counter()
         return render_template("correctGuess.html", the_title="You Guessed it!")
@@ -45,7 +44,7 @@ def do_logic():
 @app.route("/highScore")
 def display_highScore():
     with open("records.pickle", "rb") as pf:
-        data = sorted(pickle.load(pf), reverse = True)
+        data = sorted(pickle.load(pf), reverse=True)
     return render_template("highScore.html", the_title="HighScores!", myHighScores=data)
 
 
@@ -62,7 +61,7 @@ def record_highscore():
             highScores = list()
     highScores.append(userRecord)
     finalHighScores = sorted(highScores)
-    rank = (finalHighScores.index([time, session["numOfGuesses"], name]) + 1)
+    rank = finalHighScores.index([time, session["numOfGuesses"], name]) + 1
     with open("records.pickle", "wb") as pf:
         pickle.dump(highScores, pf)
         return render_template(
